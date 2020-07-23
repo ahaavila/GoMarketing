@@ -38,24 +38,39 @@ interface Product {
 const Cart: React.FC = () => {
   const { increment, decrement, products } = useCart();
 
+  // Função que vai executar o hook de increment
   function handleIncrement(id: string): void {
-    // TODO
+    increment(id);
   }
 
+  // Função que vai executar o hook de decrement
   function handleDecrement(id: string): void {
-    // TODO
+    decrement(id);
   }
 
+  // Função que vai chamar o hook que calcula o valor total do carrinho
   const cartTotal = useMemo(() => {
-    // TODO RETURN THE SUM OF THE QUANTITY OF THE PRODUCTS IN THE CART
+    const total = products.reduce((accumulator, product) => {
+      // vou salvar numa variavel o preço do produto multiplicado pela sua quantidade
+      const productsSubtotal = product.price * product.quantity;
 
-    return formatValue(0);
+      // retorno o accumulator + o subtotal
+      return accumulator + productsSubtotal;
+    }, 0);
+
+    return formatValue(total);
   }, [products]);
 
+  // Função que vai chamar o hook que calcula a quantidade de itens do carrinho
   const totalItensInCart = useMemo(() => {
-    // TODO RETURN THE SUM OF THE QUANTITY OF THE PRODUCTS IN THE CART
+    const total = products.reduce((accumulator, product) => {
+      // vou salvar numa variavel a quantidade
+      const productsQuantity = product.quantity;
 
-    return 0;
+      return accumulator + productsQuantity;
+    }, 0);
+
+    return total;
   }, [products]);
 
   return (
